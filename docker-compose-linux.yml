@@ -11,11 +11,11 @@ services:
     container_name: odoo-${ODOO_VERSION}
     hostname: odoo-${ODOO_VERSION}
     volumes:
-      - /opt/odoo-docker-compose/odoo-${ODOO_VERSION}:/var/lib/odoo
-      - /opt/odoo-docker-compose/odoo-${ODOO_VERSION}/conf:/etc/odoo/
-      - /opt/odoo-docker-compose/odoo-${ODOO_VERSION}/oca/:/mnt/oca/
-      - /opt/odoo-docker-compose/odoo-${ODOO_VERSION}/enterprise/:/mnt/enterprise/
-      - /opt/odoo-docker-compose/odoo-${ODOO_VERSION}/extra-addons/:/mnt/extra-addons/
+      - /opt/odoo-${ODOO_VERSION}:/var/lib/odoo
+      - /opt/odoo-${ODOO_VERSION}/conf/:/etc/odoo/
+      - /opt/odoo-${ODOO_VERSION}/oca/:/mnt/oca/
+      - /opt/odoo-${ODOO_VERSION}/enterprise/:/mnt/enterprise/
+      - /opt/odoo-${ODOO_VERSION}/extra-addons/:/mnt/extra-addons/
     entrypoint: "/usr/bin/odoo -c /etc/odoo/odoo.conf --dev=all"
     networks:
       odoo-network:
@@ -24,7 +24,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '2'
+          cpus: '4'
           memory: 4096M
         reservations:
           cpus: '2'
@@ -48,8 +48,8 @@ services:
       - POSTGRES_INITDB_ARGS=--auth=md5
       - PGDATA=/var/lib/postgresql/data/pgdata/ 
     volumes:
-      - /opt/odoo-docker-compose/postgres-${POSTGRES_VERSION}/data:/var/lib/postgresql/data/:rw
-      - /opt/odoo-docker-compose/postgres-${POSTGRES_VERSION}/initdb.d:/docker-entrypoint-initdb.d/
+      - /opt/postgres-${POSTGRES_VERSION}/data:/var/lib/postgresql/data/:rw
+      - /opt/postgres-${POSTGRES_VERSION}/initdb.d:/docker-entrypoint-initdb.d/
     ports:
       - "5432:5432"
     networks:
