@@ -1,56 +1,61 @@
-version: '3.1'
+networks:
+  odoo-network:
 
 services:
-
-  db16a:
-    image: postgres:13.0
+  web:
+    user: root
+    image: odoo:${ODOO_VERSION}
     restart: always
-    container_name: db16a
+    container_name: odoo-${ODOO_VERSION}
+    hostname: odoo-${ODOO_VERSION}
+    volumes:
+      - ./odoo-${ODOO_VERSION}:/var/lib/odoo
+      - ./odoo-${ODOO_VERSION}/conf:/etc/odoo/
+      - ./odoo-${ODOO_VERSION}/oca:/mnt/oca/
+      - ./odoo-${ODOO_VERSION}/enterprise:/mnt/enterprise/
+      - ./odoo-${ODOO_VERSION}/extra-addons:/mnt/extra-addons/
+    entrypoint: "/usr/bin/odoo -c /etc/odoo/odoo.conf --dev=all"
     networks:
-      - pg
-    environment:
-      POSTGRES_DB: postgres
-      POSTGRES_USER: odoo
-      POSTGRES_PASSWORD: admin
-
-  odoo:
-    image: pandoo/odoo:16.0-amd64
-    restart: always
-    container_name: odoo16
+      odoo-network:
     ports:
-      - 80:9072
+      - "8014:8069"
     deploy:
-     resources:
-         limits:
-           cpus: '1.0'
-           memory: 6000M
-         reservations:
-           cpus: '1.0'
-           memory: 2000M
-    networks:
-      - pg
-    links:
-      - db16a:db
+      resources:
+        limits:
+          cpus: '4'
+          memory: 4096M
+        reservations:
+          cpus: '2'
+          memory: 2048M
     environment:
+      HOST: postgres
       USER: odoo
       PASSWORD: admin
-    volumes:
-      - C:/Users/RONALD ROMERO/odoo/odoo16a/conf:/etc/odoo/
-      - C:/Users/RONALD ROMERO/odoo/odoo16a/extra-addons:/mnt/extra-addons/
-      # - C:/Users/RONALD ROMERO/odoo/odoo16a/odoo-venezuela-extension:/mnt/extra-addons/
-      # - C:/Users/RONALD ROMERO/odoo/odoo16a/oca:/mnt/oca-addons/
-      # - C:/Users/RONALD ROMERO/odoo/odoo16a/account-payment:/mnt/account-payment/
-      # - C:/Users/RONALD ROMERO/odoo/odoo16a/account-financial-tools:/mnt/account-financial-tools/
-      # - C:/Users/RONALD ROMERO/odoo/odoo16a/payroll_venezuela:/mnt/payroll-venezuela/
-      - C:/Users/RONALD ROMERO/odoo/enterprise-16.0:/mnt/enterprise-addons/
-      # - C:/Users/RONALD ROMERO/odoo-airtek/airtek_addons:/mnt/airtek-addons/
-      # - C:/Users/RONALD ROMERO/odoo-airtek/airtek_third_apps:/mnt/airtek-third-addons/
-      
-      #- C:/Users/RONALD ROMERO/odoo/odoo16/extra-addons:/mnt/extra-addons
-      # - C:/Users/RONALD ROMERO/odoo/airtek/airtek_odoo/airtek_addons:/mnt/airtek-addons/
-      # Add volumes according to your odoo.conf
-      # - ~/Code/addons/15.0/extra:/mnt/extra-addons
     tty: true
+    depends_on:
+      - db
 
-networks:
-  pg:
+  db:
+    image: postgres:${POSTGRES_VERSION}
+    restart: unless-stopped
+    hostname: postgres
+    container_name: postgres
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=odoo
+      - POSTGRES_PASSWORD=admin
+      - PGDATA=/var/lib/postgresql/data/pgdata/ 
+    volumes:
+      - ./postgres-${POSTGRES_VERSION}/data:/var/lib/postgresql/data/:rw
+    ports:
+      - "5432:5432"
+    networks:
+      odoo-network:
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 4096M
+        reservations:
+          cpus: '2'
+          memory: 2048M
