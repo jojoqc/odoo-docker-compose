@@ -1,0 +1,56 @@
+version: '3.1'
+
+services:
+
+  db16a:
+    image: postgres:13.0
+    restart: always
+    container_name: db16a
+    networks:
+      - pg
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: odoo
+      POSTGRES_PASSWORD: admin
+
+  odoo:
+    image: pandoo/odoo:16.0-amd64
+    restart: always
+    container_name: odoo16
+    ports:
+      - 80:9072
+    deploy:
+     resources:
+         limits:
+           cpus: '1.0'
+           memory: 6000M
+         reservations:
+           cpus: '1.0'
+           memory: 2000M
+    networks:
+      - pg
+    links:
+      - db16a:db
+    environment:
+      USER: odoo
+      PASSWORD: admin
+    volumes:
+      - C:/Users/RONALD ROMERO/odoo/odoo16a/conf:/etc/odoo/
+      - C:/Users/RONALD ROMERO/odoo/odoo16a/extra-addons:/mnt/extra-addons/
+      # - C:/Users/RONALD ROMERO/odoo/odoo16a/odoo-venezuela-extension:/mnt/extra-addons/
+      # - C:/Users/RONALD ROMERO/odoo/odoo16a/oca:/mnt/oca-addons/
+      # - C:/Users/RONALD ROMERO/odoo/odoo16a/account-payment:/mnt/account-payment/
+      # - C:/Users/RONALD ROMERO/odoo/odoo16a/account-financial-tools:/mnt/account-financial-tools/
+      # - C:/Users/RONALD ROMERO/odoo/odoo16a/payroll_venezuela:/mnt/payroll-venezuela/
+      - C:/Users/RONALD ROMERO/odoo/enterprise-16.0:/mnt/enterprise-addons/
+      # - C:/Users/RONALD ROMERO/odoo-airtek/airtek_addons:/mnt/airtek-addons/
+      # - C:/Users/RONALD ROMERO/odoo-airtek/airtek_third_apps:/mnt/airtek-third-addons/
+      
+      #- C:/Users/RONALD ROMERO/odoo/odoo16/extra-addons:/mnt/extra-addons
+      # - C:/Users/RONALD ROMERO/odoo/airtek/airtek_odoo/airtek_addons:/mnt/airtek-addons/
+      # Add volumes according to your odoo.conf
+      # - ~/Code/addons/15.0/extra:/mnt/extra-addons
+    tty: true
+
+networks:
+  pg:
