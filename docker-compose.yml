@@ -9,9 +9,9 @@ services:
     container_name: odoo-${ODOO_VERSION}
     hostname: odoo-${ODOO_VERSION}
     volumes:
-      - ./odoo-${ODOO_VERSION}:/var/lib/odoo
-      - ./odoo-${ODOO_VERSION}/conf:/etc/odoo/
       - ./odoo-${ODOO_VERSION}/oca:/mnt/oca/
+      - ./odoo-${ODOO_VERSION}/conf:/etc/odoo/
+      - ./odoo-${ODOO_VERSION}/odoo-data:/var/lib/odoo
       - ./odoo-${ODOO_VERSION}/enterprise:/mnt/enterprise/
       - ./odoo-${ODOO_VERSION}/extra-addons:/mnt/extra-addons/
     entrypoint: "/usr/bin/odoo -c /etc/odoo/odoo.conf --dev=all"
@@ -34,21 +34,21 @@ services:
     tty: true
     depends_on:
       - db
+    links:
+      - db:db
 
   db:
     image: postgres:${POSTGRES_VERSION}
     restart: unless-stopped
-    hostname: postgres
-    container_name: postgres
+    hostname: db
+    container_name: db
     environment:
-      - POSTGRES_DB=postgres
       - POSTGRES_USER=odoo
+      - POSTGRES_DB=postgres
       - POSTGRES_PASSWORD=admin
       - PGDATA=/var/lib/postgresql/data/pgdata/ 
     volumes:
-      - ./postgres-${POSTGRES_VERSION}/data:/var/lib/postgresql/data/:rw
-    ports:
-      - "5432:5432"
+      - ./postgres-${POSTGRES_VERSION}/data:/var/lib/postgresql/data/
     networks:
       odoo-network:
     deploy:
