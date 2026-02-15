@@ -1,8 +1,8 @@
 {
     "name": "Odoo-Docker-Compose",
-    "dockerComposeFile": "docker-compose.yml",
-    "service": "odoo",
-    "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+    "dockerComposeFile": "docker-compose.yaml",
+    "service": "devcontainer",
+    "workspaceFolder": "/workspaces/devcontainer",
     "customizations": {
         "vscode": {
             "settings": {
@@ -28,7 +28,11 @@
                 "ms-python.python",
                 "ms-python.vscode-pylance",
                 "astral-sh.ruff",
-                "mtxr.sqltools"
+                "mtxr.sqltools",
+                "mtxr.sqltools-driver-pg",
+                "trinhanhngoc.vscode-odoo",
+                "mvintg.odoo-file",
+                "Odoo.owl-vision"
             ]
         }
     },
