@@ -1,0 +1,43 @@
+[tool.pyright]
+include = ["."]
+exclude = ["**/node_modules", "**/__pycache__", ".venv"]
+# Hardtyping: Fallar si falta información de tipos
+typeCheckingMode = "strict"
+reportMissingTypeStubs = false
+reportUnknownMemberType = "none"
+reportUnknownVariableType = "error"
+reportUnknownArgumentType = "error"
+reportUnknownReturnType = "error"
+reportUnusedImport = "error"
+pythonVersion = "3.12"
+pythonPlatform = "Linux"
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+fix = true
+
+[tool.ruff.lint]
+# E/W: Errores y Advertencias generales
+# F: Pyflakes (Errores lógicos)
+# B: Bugbear (Mejores prácticas)
+# I: Isort (Orden de imports)
+# ANN: Annotations (Fuerza tipado en funciones)
+# UP: Pyupgrade (Sintaxis moderna de Python)
+select = ["E", "W", "F", "B", "I", "ANN", "UP"]
+ignore = [
+    "ANN101", # Missing type annotation for 'self'
+    "ANN102", # Missing type annotation for 'cls'
+    "B008",   # Do not perform function call in argument defaults (Odoo fields)
+]
+
+[tool.ruff.lint.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.ruff.lint.isort]
+combine-as-imports = true
+section-order = ["future", "standard-library", "third-party", "odoo", "first-party", "local-folder"]
+
+[tool.ruff.lint.isort.sections]
+"odoo" = ["odoo"]
