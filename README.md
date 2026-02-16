@@ -1,4 +1,4 @@
-# 🐘 Odoo Docker Compose - Entorno de Desarrollo Profesional
+# 🐘 Odoo Docker Compose - Entorno de Desarrollo
 
 > 🚀 Boilerplate optimizado para desarrollo de aplicaciones Odoo 18 con Dev Container, herramientas modernas y configuración enterprise-ready.
 
