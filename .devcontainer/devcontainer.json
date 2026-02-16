@@ -1,7 +1,7 @@
 {
     "name": "Odoo-Docker-Compose",
     "dockerComposeFile": "docker-compose.yaml",
-    "service": "devcontainer",
+    "service": "odoo",
     "workspaceFolder": "/workspaces/devcontainer",
     "customizations": {
         "vscode": {
@@ -10,12 +10,15 @@
                 "python.analysis.typeCheckingMode": "strict",
                 // Indicamos que use el pyproject.toml
                 "pyright.projectRoot": ".",
+                "python.analysis.stubPath": "/workspaces/devcontainer/stubs",
                 "python.analysis.extraPaths": [
                     "/usr/lib/python3/dist-packages/odoo",
-                    "/mnt/enterprise",
-                    "/mnt/extra_addons",
-                    "/mnt/oca",
-                    "/mnt/local_addons"
+                    "/workspaces/devcontainer/odoo",
+                    "/workspaces/devcontainer/odoo/addons",
+                    "/workspaces/devcontainer/local_addons",
+                    "/workspaces/devcontainer/enterprise",
+                    "/workspaces/devcontainer/oca",
+                    "/workspaces/devcontainer/extra_addons"
                 ],
                 "editor.defaultFormatter": "charliermarsh.ruff",
                 "editor.formatOnSave": true,
@@ -28,14 +31,14 @@
                 "ms-python.python",
                 "ms-python.vscode-pylance",
                 "astral-sh.ruff",
-                "mtxr.sqltools",
                 "mtxr.sqltools-driver-pg",
-                "trinhanhngoc.vscode-odoo",
                 "mvintg.odoo-file",
-                "Odoo.owl-vision"
+                "Odoo.owl-vision",
+                "trinhanhngoc.vscode-odoo",
+                "ms-python.debugpy"
             ]
         }
     },
-    "postCreateCommand": "pip install --upgrade pip && pip install ruff pyright pre-commit",
+    "postCreateCommand": "pip install --upgrade pip && pip install ruff pyright pre-commit debugpy pydevd-odoo",
     "remoteUser": "odoo"
 }

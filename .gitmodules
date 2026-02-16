@@ -1,0 +1,8 @@
+[submodule "odoo"]
+	path = odoo
+	url = https://github.com/odoo/odoo.git
+	branch = 18.0
+[submodule "stubs"]
+	path = stubs
+	url = https://github.com/odoo-ide/odoo-stubs.git
+	branch = 18.0

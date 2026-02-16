@@ -1,0 +1,62 @@
+name: odoo
+
+volumes:
+  odoo_data:
+  postgres_data:
+
+services:
+  odoo:
+    build:
+      context: .
+      dockerfile: .devcontainer/Dockerfile
+      args:
+        ODOO_VERSION: ${ODOO_VERSION}
+    image: devcontainer:${ODOO_VERSION}
+    restart: unless-stopped
+    hostname: odoo
+    container_name: odoo
+    entrypoint: ${ENTRYPOINT:-odoo -c /etc/odoo/odoo.conf --dev=all}
+    ports:
+      - "${ODOO_PORT:8069}"
+      - "${ODOO_LONGPOLLING_PORT:8072}"
+      - "${DEBUGPY_PORT:5678}"
+    depends_on:
+      - postgres
+    environment:
+      USER: odoo
+      PASSWORD: admin
+    volumes:
+      - ..:/workspaces/devcontainer:cached
+      - ../conf:/etc/odoo
+      - odoo_data:/var/lib/odoo
+    tty: true
+    stdin_open: true
+
+  postgres:
+    image: postgres:${POSTGRES_VERSION}
+    restart: unless-stopped
+    hostname: postgres
+    container_name: postgres
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: odoo
+      POSTGRES_PASSWORD: admin
+      PGDATA: /var/lib/postgresql/data/pgdata
+    command: >
+      postgres
+      -c shared_buffers=768MB
+      -c effective_cache_size=1536MB
+      -c maintenance_work_mem=128MB
+      -c checkpoint_completion_target=0.9
+      -c wal_buffers=16MB
+      -c default_statistics_target=100
+      -c random_page_cost=1.1
+      -c effective_io_concurrency=200
+      -c work_mem=2048kB
+      -c min_wal_size=1GB
+      -c max_wal_size=4GB
+      -c max_connections=64
+    ports:
+      - "${POSTGRES_PORT:5432}"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data

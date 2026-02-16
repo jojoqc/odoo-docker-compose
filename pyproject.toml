@@ -1,6 +1,24 @@
 [tool.pyright]
 include = ["."]
-exclude = ["**/node_modules", "**/__pycache__", ".venv"]
+exclude = [
+    "**/node_modules", 
+    "**/__pycache__", 
+    ".venv", 
+    "**/odoo_data/**", 
+    "**/postgres_data/**",
+]
+
+# Rutas críticas para que Pyright encuentre Odoo y tus módulos
+stubPath = "/workspaces/devcontainer/stubs"
+extraPaths = [
+    "/usr/lib/python3/dist-packages/odoo",     # Ruta real del core de Odoo en el contenedor
+    "/workspaces/devcontainer/odoo",
+    "/workspaces/devcontainer/odoo/addons",
+    "/workspaces/devcontainer/local_addons",   # Ruta absoluta dentro del workspace
+    "/workspaces/devcontainer/enterprise",     # Si tienes enterprise
+    "/workspaces/devcontainer/oca",            # Si tienes OCA
+    "/workspaces/devcontainer/extra_addons"    # Otras dependencias
+]
 # Hardtyping: Fallar si falta información de tipos
 typeCheckingMode = "strict"
 reportMissingTypeStubs = false
