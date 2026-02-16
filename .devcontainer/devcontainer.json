@@ -1,14 +1,34 @@
 {
     "name": "Odoo-Docker-Compose",
-    "dockerComposeFile": "docker-compose.yaml",
+    "dockerComposeFile": ["docker-compose.yaml"],
     "service": "odoo",
     "workspaceFolder": "/workspaces/devcontainer",
+    "runServices": ["odoo"],
+    "forwardPorts": [8069, 8072, 5678, 5432],
+    "portsAttributes": {
+        "8069": {
+            "label": "Odoo Web",
+            "onAutoForward": "ignore" // Evita que VS Code cree un segundo mapeo dinámico
+        },
+        "8072": {
+            "label": "Odoo Chat/Longpolling",
+            "onAutoForward": "ignore"
+        },
+        "5678": {
+            "label": "Debugpy",
+            "onAutoForward": "ignore"
+        }
+    },
+    // MUY IMPORTANTE:
+    "updateRemoteUserUID": true,
     "customizations": {
         "vscode": {
             "settings": {
-                "python.languageServer": "Pylance",
-                "python.analysis.typeCheckingMode": "strict",
+                "python.languageServer": "None",
+                // "python.analysis.typeCheckingMode": "strict",
                 // Indicamos que use el pyproject.toml
+                "pyright.disableLanguageServices": false,
+                "python.analysis.persistIndex": true,
                 "pyright.projectRoot": ".",
                 "python.analysis.stubPath": "/workspaces/devcontainer/stubs",
                 "python.analysis.extraPaths": [
@@ -29,16 +49,16 @@
             },
             "extensions": [
                 "ms-python.python",
-                "ms-python.vscode-pylance",
-                "astral-sh.ruff",
+                "ms-pyright.pyright",
+                "charliermarsh.ruff",
                 "mtxr.sqltools-driver-pg",
+                "ms-python.debugpy",
                 "mvintg.odoo-file",
                 "Odoo.owl-vision",
-                "trinhanhngoc.vscode-odoo",
-                "ms-python.debugpy"
+                "trinhanhngoc.vscode-odoo"
             ]
         }
     },
-    "postCreateCommand": "pip install --upgrade pip && pip install ruff pyright pre-commit debugpy pydevd-odoo",
+    "postCreateCommand": "pip install ruff pyright pre-commit debugpy pydevd-odoo",
     "remoteUser": "odoo"
 }

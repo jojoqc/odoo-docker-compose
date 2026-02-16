@@ -20,7 +20,7 @@ extraPaths = [
     "/workspaces/devcontainer/extra_addons"    # Otras dependencias
 ]
 # Hardtyping: Fallar si falta información de tipos
-typeCheckingMode = "strict"
+# typeCheckingMode = "strict"
 reportMissingTypeStubs = false
 reportUnknownMemberType = "none"
 reportUnknownVariableType = "error"

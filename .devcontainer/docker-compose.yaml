@@ -3,37 +3,42 @@ name: odoo
 volumes:
   odoo_data:
   postgres_data:
+  odoo_home_cache:
 
 services:
   odoo:
+    env_file:
+      - .env
     build:
       context: .
-      dockerfile: .devcontainer/Dockerfile
+      dockerfile: Dockerfile
       args:
-        ODOO_VERSION: ${ODOO_VERSION}
-    image: devcontainer:${ODOO_VERSION}
+        ODOO_VERSION: ${ODOO_VERSION:-18}
+    image: devcontainer
     restart: unless-stopped
     hostname: odoo
     container_name: odoo
     entrypoint: ${ENTRYPOINT:-odoo -c /etc/odoo/odoo.conf --dev=all}
     ports:
-      - "${ODOO_PORT:8069}"
-      - "${ODOO_LONGPOLLING_PORT:8072}"
-      - "${DEBUGPY_PORT:5678}"
+      - "8069:8069"
+      - "8072:8072"
+      - "5678:5678"
     depends_on:
       - postgres
     environment:
       USER: odoo
       PASSWORD: admin
+      XDG_CACHE_HOME: /home/odoo/.cache
     volumes:
       - ..:/workspaces/devcontainer:cached
       - ../conf:/etc/odoo
       - odoo_data:/var/lib/odoo
+      - odoo_home_cache:/home/odoo
     tty: true
     stdin_open: true
 
   postgres:
-    image: postgres:${POSTGRES_VERSION}
+    image: postgres:${POSTGRES_VERSION:-16}
     restart: unless-stopped
     hostname: postgres
     container_name: postgres
@@ -57,6 +62,6 @@ services:
       -c max_wal_size=4GB
       -c max_connections=64
     ports:
-      - "${POSTGRES_PORT:5432}"
+      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
