@@ -25,7 +25,6 @@ reportMissingTypeStubs = false
 reportUnknownMemberType = "none"
 reportUnknownVariableType = "error"
 reportUnknownArgumentType = "error"
-reportUnknownReturnType = "error"
 reportUnusedImport = "error"
 pythonVersion = "3.12"
 pythonPlatform = "Linux"
