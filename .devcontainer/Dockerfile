@@ -1,4 +1,4 @@
-FROM odoo:${ODOO_VERSION:-18}
+FROM odoo:${ODOO_VERSION:-17}
 
 USER root
 
