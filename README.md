@@ -87,7 +87,7 @@ chmod +x setup.sh
 ./setup.sh
 ```
 
-### Paso 5: Acceder a Odoo
+### Paso 4: Acceder a Odoo
 | Servicio | URL |
 |----------|-----|
 | **Odoo Web** | http://localhost:8069 |
