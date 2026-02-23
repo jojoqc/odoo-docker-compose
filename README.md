@@ -1,232 +1,629 @@
-# 🐘 Odoo Docker Compose - Entorno de Desarrollo
+# Odoo 18 Development Environment
 
-> 🚀 Boilerplate optimizado para desarrollo de aplicaciones Odoo 18 con Dev Container, herramientas modernas y configuración enterprise-ready.
+Entorno de desarrollo para Odoo 18 usando Docker y VS Code Dev Containers.
 
-[![Dev Container](https://img.shields.io/badge/Dev%20Container-Ready-blue?logo=visualstudiocode&logoColor=white)](https://code.visualstudio.com/docs/devcontainers/containers)
-[![Python](https://img.shields.io/badge/Python-3.12+-blue?logo=python&logoColor=white)](https://www.python.org/)
-[![Odoo](https://img.shields.io/badge/Odoo-18.0-green?logo=odoo&logoColor=white)](https://www.odoo.com/)
+[![Odoo](https://img.shields.io/badge/Odoo-18.0-green)](https://www.odoo.com/)
+[![Python](https://img.shields.io/badge/Python-3.12-blue)](https://www.python.org/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-blue)](https://www.postgresql.org/)
 
-## ✨ Características Destacadas
+**Características principales:**
+- Dev Container configurado para VS Code
+- Type checking con Pyright y odoo-stubs
+- Debugging remoto con debugpy
+- Linting y formateo con Ruff
+- Hot reload automático
 
-### 🏗️ **Arquitectura de Desarrollo Moderna**
-- **Dev Container completo** con VS Code - entorno aislado y reproducible
-- **versión Odoo** - soporte para 18
-- **PostgreSQL optimizado** con tuning de rendimiento para desarrollo
-- **Docker Compose** con volúmenes persistentes y networking optimizado
+---
 
-### 🔧 **Herramientas de Desarrollo Integradas**
-- **Pyright** - análisis estático con tipado robusto para Odoo
-- **Ruff** - formateo y linting ultra-rápido
-- **Pre-commit hooks** - calidad de código automatizada
-- **Debugpy** - debugging remoto integrado
-- **Type Stubs** - soporte completo de tipado para el core de Odoo
+## 📋 Tabla de Contenidos
 
-### 📦 **Estructura de Módulos Organizada**
+- [✨ Características Destacadas](#-características-destacadas)
+- [📦 Requisitos Previos](#-requisitos-previos)
+- [🚀 Inicio Rápido](#-inicio-rápido)
+- [🏗️ Arquitectura del Proyecto](#%EF%B8%8F-arquitectura-del-proyecto)
+- [⚙️ Configuración Detallada](#%EF%B8%8F-configuración-detallada)
+- [💻 Desarrollo](#-desarrollo)
+- [🔧 Herramientas Integradas](#-herramientas-integradas)
+- [🐛 Troubleshooting](#-troubleshooting)
+- [📚 Recursos](#-recursos)
+
+---
+
+## Características
+
+**Entorno:**
+- Dev Container para VS Code
+- Odoo 18.0
+- PostgreSQL 16
+- Python 3.12
+- Docker Compose
+- Volúmenes persistentes
+
+**Herramientas de desarrollo:**
+- Pyright con odoo-stubs para type checking
+- Ruff para linting y formateo
+- Debugpy para debugging remoto
+- Pre-commit hooks
+- Hot reload (modo --dev=all)
+
+## Estructura del Proyecto
+
 ```
-📁 local_addons/     # Tus módulos en desarrollo
-📁 oca/             # Módulos de la comunidad OCA  
-📁 enterprise/       # Módulos enterprise (si los tienes)
-📁 extra_addons/     # Plugins y dependencias adicionales
+📦 odoo-docker-compose/
+├── 📁 odoo/               # ⚠️ Core de Odoo (clonar automáticamente)
+├── 📁 stubs/              # Type stubs para autocompletado
+├── 📁 local_addons/       # Tus módulos en desarrollo
+├── 📁 oca/                # Módulos de la comunidad OCA
+├── 📁 enterprise/         # Módulos enterprise (opcional)
+├── 📁 extra_addons/       # Otras dependencias y plugins
+├── 📁 conf/               # Configuración de Odoo
+├── 📁 .devcontainer/      # Configuración del contenedor
+│   ├── devcontainer.json  # VS Code Dev Container config
+│   ├── docker-compose.yaml
+│   ├── Dockerfile
+│   ├── .env.example       # Variables de entorno (plantilla)
+│   └── .env               # Variables de entorno (local)
+├── 🔧 setup.sh            # Script de configuración inicial
+├── 📄 pyproject.toml      # Configuración de Pyright y Ruff
+└── 📄 README.md           # Este archivo
 ```
 
-### 🎯 **Extensiones VS Code Especializadas**
-- **Odoo File** - navegación inteligente de archivos Odoo
-- **OWL Vision** - soporte para componentes OWL
-- **Odoo Extension** - herramientas específicas para desarrollo
-- **SQL Tools** - gestión de base de datos integrada
+## Extensiones VS Code
 
-## 🚀 Dev Container
+| Extensión | Función |
+|-----------|---------|
+| **Odoo File** | Navegación de archivos Odoo |
+| **OWL Vision** | Soporte para componentes OWL |
+| **Odoo Extension** | Snippets y utilidades |
+| **SQL Tools** | Cliente PostgreSQL |
+| **Debugpy** | Debugging Python |
+| **Pyright** | Type checking |
+| **Ruff** | Linting y formateo |
 
-### Iniciar con Dev Container 
+---
+
+## 📦 Requisitos Previos
+
+### Software Requerido
+
+| Software | Versión Mínima | Notas |
+|----------|---------------|-------|
+| **Docker** | 20.10+ | [Instalar Docker](https://docs.docker.com/get-docker/) |
+| **Docker Compose** | 2.0+ | Incluido con Docker Desktop |
+| **VS Code** | 1.80+ | [Descargar VS Code](https://code.visualstudio.com/) |
+| **Dev Containers Extension** | - | Instalar desde VS Code Marketplace |
+| **Git** | 2.30+ | Para clonar repositorios y submodules |
+
+### Recursos del Sistema
+
+| Recurso | Mínimo | Recomendado |
+|---------|--------|-------------|
+| **RAM** | 8 GB | 16 GB |
+| **CPU** | 4 cores | 6+ cores |
+| **Disco** | 20 GB libres | 50 GB+ libres |
+| **SO** | Linux, macOS, Windows 10+ | - |
+
+---
+
+## 🚀 Inicio Rápido
+
+### 📥 Paso 1: Clonar el Repositorio
+
 ```bash
-# 1. Clona el repositorio
-git clone <repo-url> odoo18
-cd odoo18
+# Clona este repositorio
+git clone <URL-DE-TU-REPOSITORIO> odoo-dev
+cd odoo-dev
+
+# Inicializa los submódulos (odoo-stubs)
+git submodule update --init --recursive
+```
+
+### ⚙️ Paso 2: Configurar Variables de Entorno
+
+```bash
+# Copia el archivo de ejemplo
 cp .devcontainer/.env.example .devcontainer/.env
 
-
-# 2. Abre en VS Code y selecciona "Reopen in Container"
-# 3. Espera a que se construya el contenedor
-# 4. Accede a Odoo en http://localhost:8069 (admin/admin)
-#    Contraseña de base de datos: 1234 (configurada en conf/odoo.conf)
+# Edita según tus necesidades (opcional)
+nano .devcontainer/.env
 ```
 
-## 📁 Estructura Inicial
-
-### Script de Configuración
+**Archivo `.devcontainer/.env`:**
 ```bash
-# Ejecutar después de clonar el repositorio
-chmod +x setup.sh && ./setup.sh
+POSTGRES_VERSION=16
+ODOO_VERSION=18
+ENTRYPOINT=/usr/bin/python3 -m debugpy --listen 0.0.0.0:5678 /usr/bin/odoo -c /etc/odoo/odoo.conf --dev=all
 ```
+
+### 🔧 Paso 3: Ejecutar Script de Configuración
 
 ```bash
-#!/bin/bash
-# setup.sh - Script para crear estructura de directorios
+# Da permisos de ejecución
+chmod +x setup.sh
 
-echo "🚀 Creando estructura de directorios para Odoo..."
-
-# Crear directorios de addons
-mkdir -p local_addons
-mkdir -p oca  
-mkdir -p enterprise
-mkdir -p extra_addons
-
-# Crear README para cada directorio
-echo "# Tus módulos locales en desarrollo" > local_addons/README.md
-echo "# Módulos de la comunidad OCA" > oca/README.md  
-echo "# Módulos enterprise (si los tienes)" > enterprise/README.md
-echo "# Otros módulos y dependencias" > extra_addons/README.md
-
-# Configurar permisos
-chmod -R 775 local_addons oca enterprise extra_addons
-
-echo "✅ Estructura creada exitosamente!"
-echo "📁 Directorios creados:"
-echo "   - local_addons/  # Tus módulos"
-echo "   - oca/           # Módulos OCA" 
-echo "   - enterprise/    # Módulos enterprise"
-echo "   - extra_addons/  # Otras dependencias"
+# Ejecuta el script (clonará Odoo y creará estructura)
+./setup.sh
 ```
 
-## ⚙️ Configuración
+**El script:**
+- Crea estructura de directorios (`local_addons`, `oca`, `enterprise`, `extra_addons`)
+- Clona Odoo 18.0 desde https://github.com/odoo/odoo
+- Actualiza odoo-stubs 18.0 desde https://github.com/odoo-ide/odoo-stubs.git
+- Configura permisos
 
-### Variables de Entorno
+### 🐳 Paso 4: Abrir en Dev Container
+
 ```bash
-# .devcontainer/.env
-POSTGRES_VERSION=16        # Versión PostgreSQL(15/16/17)
-ODOO_VERSION=18           # Versión Odoo (17/18/19)
-ENTRYPOINT=...            # Configuración debugging
+# Abre VS Code en el directorio
+code .
 ```
 
-### Puertos Disponibles
-- **8069** - Odoo Web Interface
-- **8072** - Longpolling/WebSockets  
-- **5678** - Debugpy (Python Debugger)
-- **5432** - PostgreSQL (acceso directo)
+1. VS Code detectará la configuración
+2. Click en "Reopen in Container"
+3. Espera la construcción del contenedor (~5-10 minutos primera vez)
+4. Odoo se iniciará automáticamente
 
-### Rutas de Desarrollo
-- **Workspace**: `/workspaces/devcontainer`
-- **Configuración**: `/etc/odoo/odoo.conf`
-- **Datos Odoo**: `/var/lib/odoo`
-- **Addons**: Configurados automáticamente en `addons_path`
+### 🌐 Paso 5: Acceder a Odoo
 
-## 🛠️ Herramientas de Desarrollo
+| Servicio | URL | Credenciales |
+|----------|-----|--------------|
+| **Odoo Web** | http://localhost:8069 | Usuario: `admin` / Password: `admin` |
+| **PostgreSQL** | `localhost:5432` | Usuario: `odoo` / Password: `admin` |
+| **Debugger** | `localhost:5678` | Automático en VS Code |
 
-### Tipado y Autocompletado
+**Master Password:** `1234` (configurada en `conf/odoo.conf`)
+
+---
+
+## 🏗️ Arquitectura del Proyecto
+
+### 🔄 Flujo de Trabajo del Dev Container
+
+```mermaid
+graph TB
+    A[VS Code] -->|Reopen in Container| B[Docker Compose]
+    B --> C[Contenedor Odoo]
+    B --> D[Contenedor PostgreSQL]
+    C -->|Monta| E[Workspace /workspaces/devcontainer]
+    C -->|Conecta| D
+    E -->|Contiene| F[odoo/]
+    E -->|Contiene| G[local_addons/]
+    E -->|Contiene| H[stubs/]
+    C -->|Expone| I[Puerto 8069]
+    C -->|Expone| J[Puerto 5678 Debugger]
+```
+
+### 📂 Directorios Clave
+
+| Directorio | Propósito | Observaciones |
+|------------|-----------|---------------|
+| **`odoo/`** | Core de Odoo 18 | Clonado por `setup.sh` |
+| **`stubs/`** | Type hints | Git submodule odoo-stubs |
+| **`local_addons/`** | Módulos personalizados | Desarrollo de addons |
+| **`oca/`** | Módulos OCA | Comunidad OCA |
+| **`enterprise/`** | Módulos enterprise | Requiere licencia |
+| **`extra_addons/`** | Otros módulos | Dependencias externas |
+| **`conf/`** | Configuración | odoo.conf |
+
+### 🔗 Repositorios Requeridos
+
+El proyecto depende de estos repositorios externos:
+
+1. **Odoo Core** - https://github.com/odoo/odoo (branch 18.0)
+   - Ubicación: `./odoo/`
+   - Clonado automáticamente por `setup.sh`
+
+2. **Odoo Stubs** - https://github.com/odoo-ide/odoo-stubs.git (branch 18.0)
+   - Ubicación: `./stubs/`
+   - Git submodule, actualizado por `setup.sh`
+
+---
+
+## ⚙️ Configuración Detallada
+
+### 🌍 Variables de Entorno (`.devcontainer/.env`)
+
+```bash
+POSTGRES_VERSION=16
+ODOO_VERSION=18
+
+# Con debugging remoto
+ENTRYPOINT=/usr/bin/python3 -m debugpy --listen 0.0.0.0:5678 /usr/bin/odoo -c /etc/odoo/odoo.conf --dev=all
+
+# Sin debugging remoto
+# ENTRYPOINT=odoo -c /etc/odoo/odoo.conf --dev=all
+```
+
+### 🔌 Puertos Expuestos
+
+| Puerto | Servicio | Uso |
+|--------|----------|-----|
+| **8069** | Odoo HTTP | Interfaz web principal |
+| **8072** | Odoo Longpolling | WebSockets para chat y notificaciones |
+| **5678** | Debugpy | Debugging remoto Python |
+| **5432** | PostgreSQL | Base de datos (acceso directo) |
+
+### 📍 Rutas Importantes en el Contenedor
+
+| Ruta | Descripción |
+|------|-------------|
+| `/workspaces/devcontainer` | Workspace principal (mapea a raíz del proyecto) |
+| `/workspaces/devcontainer/odoo` | Core de Odoo |
+| `/etc/odoo/odoo.conf` | Archivo de configuración de Odoo |
+| `/var/lib/odoo` | Datos persistentes de Odoo (volumen Docker) |
+| `/usr/lib/python3/dist-packages/odoo` | Instalación base de Odoo (imagen Docker) |
+
+### Configuración de Odoo (`conf/odoo.conf`)
+
+```ini
+[options]
+addons_path = 
+    /workspaces/devcontainer/enterprise,
+    /workspaces/devcontainer/extra_addons,
+    /workspaces/devcontainer/local_addons,
+    /workspaces/devcontainer/oca
+
+admin_passwd = 1234
+db_host = postgres
+db_user = odoo
+db_password = admin
+
+workers = 0
+max_cron_threads = 1
+
+limit_memory_soft = 1610612736
+limit_memory_hard = 2147483648
+
+log_level = info
+list_db = True
+without_demo = True
+```
+
+---
+
+## 💻 Desarrollo
+
+### Crear un Módulo
+
+```bash
+# Dentro del contenedor (terminal de VS Code)
+cd /workspaces/devcontainer/local_addons
+
+# Crear estructura básica del módulo
+mkdir -p mi_modulo/{models,views,security}
+cd mi_modulo
+
+# Crear __manifest__.py
+cat > __manifest__.py << 'EOF'
+{
+    'name': 'Mi Módulo',
+    'version': '18.0.1.0.0',
+    'category': 'Custom',
+    'summary': 'Descripción breve del módulo',
+    'author': 'Tu Nombre',
+    'depends': ['base'],
+    'data': [
+        'security/ir.model.access.csv',
+        'views/views.xml',
+    ],
+    'installable': True,
+    'application': False,
+    'auto_install': False,
+}
+EOF
+
+# Crear __init__.py
+echo "from . import models" > __init__.py
+```
+
+### Type Checking con Pyright
+
 ```python
-# Ejemplo con tipado robusto
+# local_addons/mi_modulo/models/partner.py
 from odoo import models, fields, api
 from typing import List, Dict, Optional
 
 class ResPartner(models.Model):
-    _name = 'res.partner'
+    _inherit = 'res.partner'
     
-    name: str = fields.Char(required=True)
-    email: Optional[str] = fields.Char()
+    custom_field: str = fields.Char(string="Campo Custom")
     
     @api.model
-    def create_partners(self, partners_data: List[Dict]) -> List['ResPartner']:
-        # Full autocompletado y type checking
-        pass
+    def mi_metodo(self, datos: List[Dict]) -> List['ResPartner']:
+        partners = self.env['res.partner'].browse([1, 2, 3])
+        return partners.filtered(lambda p: p.active)
 ```
 
-### Debugging Remoto
-1. **Breakpoints** en VS Code
-2. **Attach** al proceso Odoo en puerto 5678
-3. **Debug** de módulos locales y enterprise
-4. **Hot reload** en modo desarrollo
+**Comandos:**
 
-### Calidad de Código
+```bash
+# Type checking completo
+pyright
+
+# Type checking con warnings
+pyright --warnings
+
+# Type checking de un archivo específico
+pyright local_addons/mi_modulo/models/partner.py
+```
+
+### Formateo y Linting con Ruff
+
 ```bash
 # Formateo automático
 ruff format .
 
-# Linting y corrección
+# Linting y auto-fix
 ruff check --fix .
 
-# Type checking
-pyright --warnings
+# Solo verificar sin modificar
+ruff check .
+
+# Verificar un directorio específico
+ruff check local_addons/mi_modulo/
 ```
 
-## 🔧 Personalización
+### Debugging Remoto
 
-### Agregar Nuevos Addons
+1. Ve a **Run and Debug** (Ctrl+Shift+D)
+2. Crea `.vscode/launch.json`:
+
+```json
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Remote Attach",
+            "type": "debugpy",
+            "request": "attach",
+            "connect": {
+                "host": "localhost",
+                "port": 5678
+            },
+            "pathMappings": [
+                {
+                    "localRoot": "${workspaceFolder}",
+                    "remoteRoot": "/workspaces/devcontainer"
+                }
+            ]
+        }
+    ]
+}
+```
+
+3. Coloca breakpoints en tu código
+4. Ejecuta "Python: Remote Attach"
+5. El breakpoint se activará al ejecutar el código en Odoo
+
+### Agregar Módulos de OCA
+
 ```bash
-# Módulos locales
-mkdir local_addons/mi_modulo
+# Dentro de la carpeta oca/
+cd /workspaces/devcontainer/oca
 
-# Módulos OCA
-git submodule add https://github.com/OCA/web.git oca/web
+# Clonar repositorio de OCA como submodule
+git submodule add https://github.com/OCA/web.git web
+git submodule add https://github.com/OCA/server-tools.git server-tools
 
-# Módulos enterprise
-cp -r /path/to/enterprise/* enterprise/
+# Actualizar submódulos
+git submodule update --init --recursive
 ```
 
-### Configuración Avanzada
-```python
-# conf/odoo.conf - ajustes específicos
-workers = 3                    # Ajustar según CPU
-limit_memory_soft = 1610612736 # ~1.5GB por worker
-limit_time_cpu = 600           # 10 minutos por request
+
+---
+
+## 🔧 Herramientas Integradas
+
+### Pre-commit Hooks
+
+Configuración de pre-commit para calidad de código:
+
+```bash
+# Instalar hooks (dentro del contenedor)
+pre-commit install
+
+# Ejecutar manualmente en todos los archivos
+pre-commit run --all-files
+
+# Ejecutar solo en archivos staged
+pre-commit run
 ```
+
+**Configuración (`.pre-commit-config.yml`):**
+- ✅ Ruff formatting
+- ✅ Ruff linting
+- ✅ Trailing whitespace
+- ✅ End of file fixer
+
+### SQL Tools (PostgreSQL)
+
+Conexión directa a PostgreSQL:
+
+**Configuración:**
+- Host: `postgres`
+- Port: `5432`
+- Database: `postgres`
+- Username: `odoo`
+- Password: `admin`
+
+### Odoo Shell
+
+```bash
+# Acceder a shell de Odoo
+odoo shell -c /etc/odoo/odoo.conf -d nombre_db
+
+# Ejemplo de uso
+>>> self.env['res.partner'].search([])
+>>> self.env.user
+```
+
+---
 
 ## 🐛 Troubleshooting
 
-### Permisos de Archivos
+### "Permission denied" en archivos
+
+**Solución:**
 ```bash
-# Fix permisos locales
-chown -R $USER:$USER .
-chmod -R 775 local_addons oca enterprise extra_addons
+# Fuera del contenedor
+sudo chown -R $USER:$USER .
+chmod -R 775 local_addons oca enterprise extra_addons odoo
 ```
 
-### Logs y Debugging
+### Odoo no arranca o se reinicia
+
+**Diagnóstico:**
 ```bash
-# Logs en tiempo real
+# Ver logs del contenedor
 docker logs -f odoo
 
-# Debugging remoto
-# VS Code: Run > Attach to Remote Process
+# Verificar recursos
+docker stats odoo
 ```
 
-### Problemas Comunes
-- **Memory errors**: Reducir workers o aumentar RAM
-- **Port conflicts**: Cambiar puertos en docker-compose.yaml
-- **Permission denied**: Ejecutar comandos de permisos
+**Soluciones:**
+- Reducir `workers` en `conf/odoo.conf` (o dejarlo en 0)
+- Aumentar límites de memoria en Docker Desktop
+- Verificar que PostgreSQL esté corriendo: `docker ps | grep postgres`
 
-## 🤝 Contribución
+### ModuleNotFoundError: No module named 'odoo'
 
-### Flujo de Trabajo
-1. **Fork** del repositorio
-2. **Feature branch** para cambios
-3. **Pre-commit checks** automáticos
-4. **Pull request** con tests
+**Solución:**
+```bash
+# Ejecuta el setup para clonar Odoo
+./setup.sh
 
-### Standards
-- **PEP 8** con Ruff formatting
-- **Type hints** obligatorios
-- **Tests** para nuevas funcionalidades
-- **Documentation** en código
+# Verifica que existe el directorio
+ls -la odoo/
 
-## 📚 Recursos Adicionales
+# Reconstruye el contenedor
+# VS Code: Ctrl+Shift+P → "Dev Containers: Rebuild Container"
+```
 
-### Documentación
-- [Odoo Developer Documentation](https://www.odoo.com/documentation/latest/developer.html)
-- [Docker Compose Reference](https://docs.docker.com/compose/)
+### Type checking no funciona
+
+**Solución:**
+```bash
+# Actualiza los stubs
+cd stubs/
+git pull origin 18.0  # O la versión que uses
+
+# Verifica configuración de Pyright
+cat pyproject.toml
+
+# Reinicia el language server en VS Code
+# Ctrl+Shift+P → "Pyright: Restart Server"
+```
+
+### Puerto 8069 ya en uso
+
+**Solución:**
+```bash
+# Encuentra el proceso usando el puerto
+sudo lsof -i :8069
+
+# Mata el proceso
+sudo kill -9 <PID>
+
+# O cambia el puerto en docker-compose.yaml
+# Edita .devcontainer/docker-compose.yaml
+# ports:
+#   - "8070:8069"  # Usar 8070 en vez de 8069
+```
+
+### Base de datos no se crea
+
+**Solución:**
+```bash
+# Verifica que PostgreSQL está corriendo
+docker ps | grep postgres
+
+# Conéctate a PostgreSQL y verifica
+docker exec -it postgres psql -U odoo -d postgres
+
+# Dentro de PostgreSQL
+\l  # Lista bases de datos
+\q  # Salir
+
+# Verifica master password en conf/odoo.conf
+grep admin_passwd conf/odoo.conf
+```
+
+### Hot reload no funciona
+
+**Solución:**
+```bash
+# Verifica que estás en modo desarrollo
+# conf/odoo.conf debe tener workers = 0
+# o ENTRYPOINT debe incluir --dev=all
+
+# Reinicia el servicio Odoo manualmente
+docker restart odoo
+
+# Desde Odoo web: actualiza el módulo
+# Apps → Busca tu módulo → Actualizar
+```
+
+---
+
+## 📚 Recursos
+
+### 📖 Documentación Oficial
+
+- [Odoo Developer Documentation](https://www.odoo.com/documentation/18.0/developer.html)
+- [Odoo ORM API](https://www.odoo.com/documentation/18.0/developer/reference/backend/orm.html)
+- [Docker Compose Reference](https://docs.docker.com/compose/compose-file/)
 - [VS Code Dev Containers](https://code.visualstudio.com/docs/devcontainers/containers)
+- [Pyright Documentation](https://microsoft.github.io/pyright/)
+- [Ruff Linter](https://docs.astral.sh/ruff/)
 
-### Comunidad
+### 🌐 Comunidad y Soporte
+
 - [Odoo Community Forum](https://www.odoo.com/forum/help-1)
-- [OCA GitHub](https://github.com/OCA)
-- [Stack Overflow Odoo Tag](https://stackoverflow.com/questions/tagged/odoo)
+- [OCA GitHub Organization](https://github.com/OCA)
+- [Stack Overflow - Odoo Tag](https://stackoverflow.com/questions/tagged/odoo)
+- [Odoo Discord Community](https://discord.gg/odoo)
 
----
+### 🎓 Tutoriales y Guías
 
-## 📄 Licencia
+- [Odoo Development Cookbook](https://www.packtpub.com/product/odoo-development-cookbook-fourth-edition/)
+- [OCA Development Guidelines](https://github.com/OCA/odoo-community.org/blob/master/website/Contribution/CONTRIBUTING.rst)
+- [Best Practices for Odoo Development](https://www.odoo.com/documentation/18.0/developer/howtos.html)
 
-MIT License - ver archivo [LICENSE](LICENSE) para detalles.
 
----
+## Contribución
 
-**⭐ Si este boilerplate te ayuda en tu desarrollo de Odoo, considera darle una estrella!**
+1. Fork del repositorio
+2. Feature branch: `git checkout -b feature/nueva-funcionalidad`
+3. Commits: `[FEAT]:`, `[FIX]:`, `[DOCS]:`, `[REF]:`
+4. Push y Pull Request
 
-**🐛 Issues y Pull Requests son bienvenidos para mejorar este proyecto.**
+**Standards:**
+- PEP 8 (verificado por Ruff)
+- Type hints
+- Docstrings
+- Tests
+
+
+## FAQ
+
+### ¿Puedo usar carpetas fuera del workspace?
+
+Sí, montando volúmenes en `docker-compose.yaml`, pero no es recomendado para Odoo core por problemas de permisos y reproducibilidad. Usa `setup.sh` para clonar Odoo dentro del proyecto.
+
+### ¿Cómo agrego módulos Enterprise?
+
+```bash
+cp -r /ruta/a/enterprise/* /workspaces/devcontainer/enterprise/
+docker restart odoo
+```
+
+### Backup de base de datos
+
+```bash
+# Backup
+docker exec -t postgres pg_dump -U odoo nombre_db > backup.sql
+
+# Restaurar
+docker exec -i postgres psql -U odoo -d nombre_db < backup.sql
+```
