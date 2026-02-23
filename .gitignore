@@ -6,7 +6,10 @@
 .env
 odoo-*
 postgres-*
-
+enterprise/*
+extra_addons/*
+local_addons/*
+oca/*
 
 ### C ###
 # Prerequisites
