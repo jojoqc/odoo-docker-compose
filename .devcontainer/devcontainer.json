@@ -1,5 +1,5 @@
 {
-    "name": "Odoo-Docker-Compose",
+    "name": "devcontainer-odoo-18",
     "dockerComposeFile": ["docker-compose.yaml"],
     "service": "odoo",
     "workspaceFolder": "/workspaces/devcontainer",
@@ -30,7 +30,7 @@
                 "pyright.disableLanguageServices": false,
                 "python.analysis.persistIndex": true,
                 "pyright.projectRoot": ".",
-                "python.analysis.stubPath": "/workspaces/devcontainer/stubs",
+                "python.analysis.stubPath": "/workspaces/devcontainer/odoo-stubs",
                 "python.analysis.extraPaths": [
                     "/usr/lib/python3/dist-packages/odoo",
                     "/workspaces/devcontainer/odoo",
@@ -40,6 +40,7 @@
                     "/workspaces/devcontainer/oca",
                     "/workspaces/devcontainer/extra_addons"
                 ],
+
                 "editor.defaultFormatter": "charliermarsh.ruff",
                 "editor.formatOnSave": true,
                 "editor.codeActionsOnSave": {
@@ -59,6 +60,5 @@
             ]
         }
     },
-    "postCreateCommand": "pip install ruff pyright pre-commit debugpy pydevd-odoo",
     "remoteUser": "odoo"
 }

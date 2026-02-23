@@ -1,2 +1,4 @@
 debugpy
 pydevd-odoo
+ruff
+pyright

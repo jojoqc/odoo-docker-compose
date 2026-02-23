@@ -34,6 +34,8 @@ services:
       - ../conf:/etc/odoo
       - odoo_data:/var/lib/odoo
       - odoo_home_cache:/home/odoo
+      - ../../odoo:/workspaces/devcontainer/odoo:cached
+      - ../../odoo-stubs:/workspaces/devcontainer/odoo-stubs:cached
     tty: true
     stdin_open: true
 
