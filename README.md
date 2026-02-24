@@ -34,8 +34,7 @@ Entorno de desarrollo para Odoo 18 usando Docker y VS Code Dev Containers.
 ├── 📁 enterprise/         # Módulos enterprise (opcional)
 ├── 📁 extra_addons/       # Otras dependencias y plugins
 ├── 📁 conf/               # Configuración de Odoo
-├── 📁 docker-compose.yml   # Configuración de Docker Compose
-├── 📁 Dockerfile          # Dockerfile para el contenedor
+├── 📄 docker-compose.yml   # Configuración de Docker Compose
 ├── 📄 .env.example       # Variables de entorno (plantilla)
 ├── 🔧 setup.sh            # Script de configuración inicial
 ├── 📄 pyproject.toml      # Configuración de Pyright y Ruff
