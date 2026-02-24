@@ -19,11 +19,11 @@ Entorno de desarrollo para Odoo 18 usando Docker y VS Code Dev Containers.
 **Herramientas de desarrollo:**
 | Extensión | Función |
 |-----------|---------|
-| **Odoo shortcuts** | Navegación de archivos Odoo | [Marketplace](https://marketplace.windsurf.com/vscode/item?itemName=mvintg.odoo-file) |
-| **OWL Vision** | Soporte para componentes OWL | [Marketplace](https://marketplace.windsurf.com/vscode/item?itemName=Odoo.owl-vision) |
-| **Odoo IDE** | Snippets y utilidades | [Marketplace](https://marketplace.windsurf.com/vscode/item?itemName=trinhanhngoc.vscode-odoo) |
-| **Pyright** | Type checking | [Marketplace](https://marketplace.windsurf.com/vscode/item?itemName=ms-pyright.pyright) |
-| **Ruff** | Linting y formateo | [Marketplace](https://marketplace.windsurf.com/vscode/item?itemName=charliermarsh.ruff) |
+| [**Odoo shortcuts**](https://marketplace.windsurf.com/vscode/item?itemName=mvintg.odoo-file) | Navegación de archivos Odoo |
+| [**OWL Vision**](https://marketplace.windsurf.com/vscode/item?itemName=Odoo.owl-vision) | Soporte para componentes OWL |
+| [**Odoo IDE**](https://marketplace.windsurf.com/vscode/item?itemName=trinhanhngoc.vscode-odoo) | Snippets y utilidades |
+| [**Pyright**](https://marketplace.windsurf.com/vscode/item?itemName=ms-pyright.pyright) | Type checking |
+| [**Ruff**](https://marketplace.windsurf.com/vscode/item?itemName=charliermarsh.ruff) | Linting y formateo |
 
 ## Estructura del Proyecto
 
@@ -89,15 +89,15 @@ git clone https://github.com/odoo/odoo.git --depth 1 --branch 18.0 odoo18
 git clone https://github.com/odoo/odoo-stubs.git --depth 1 --branch 18.0
 
 # Volver al proyecto
-cd odoo-devcontainer
+cd odoo-dev
 ```
 
 **Estructura recomendada:**
 ```
 ~/path/to/odoo/
-├── odoo18/              # Código fuente Odoo 18
+├── odoo/                # Código fuente Odoo 18
 ├── odoo-stubs/          # Type stubs para IDE
-└── odoo-devcontainer/   # Tu proyecto actual
+└── odoo-dev/            # Tu proyecto actual
 ```
 
 ### Paso 4: Ejecutar Script de Configuración
