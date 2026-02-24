@@ -37,11 +37,11 @@ log_error() {
     echo -e "${RED}❌ $1${NC}"
 }
 
-# === PASO 1: Copiar archivo .env ===
+# === PASO 1: Configurar archivo .env ===
 log_info "Configurando archivo .env..."
 
-ENV_FILE=".devcontainer/.env"
-ENV_EXAMPLE=".devcontainer/.env.example"
+ENV_FILE=".env"
+ENV_EXAMPLE=".env.example"
 
 if [ ! -f "$ENV_FILE" ]; then
     if [ -f "$ENV_EXAMPLE" ]; then
@@ -165,9 +165,9 @@ echo "   ✅ Permisos establecidos (775)"
 echo "   ✅ Archivo .env configurado"
 echo ""
 echo -e "${BLUE}🚀 Próximos pasos:${NC}"
-echo "   1. Abre en VS Code: ${YELLOW}code .${NC}"
-echo "   2. Click en ${YELLOW}'Reopen in Container'${NC}"
-echo "   3. El contenedor montará los directorios odoo y odoo-stubs desde el nivel superior"
+echo "   1. Los servicios ya están corriendo con ${YELLOW}docker compose up -d${NC}"
+echo "   2. Accede a Odoo en: ${YELLOW}http://localhost:8069${NC}"
+echo "   3. Usa tu IDE preferido para desarrollo local"
 echo ""
 log_info "Para más información, consulta el README.md"
 echo ""

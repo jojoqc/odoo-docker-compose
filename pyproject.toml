@@ -6,18 +6,23 @@ exclude = [
     ".venv", 
     "**/odoo_data/**", 
     "**/postgres_data/**",
+    "**/__init__.py/**",
+    "**/__manifest__.py/**",
+    "odoo-stubs",
+    "odoo",
+    "odoo/addons",
 ]
 
 # Rutas críticas para que Pyright encuentre Odoo y tus módulos
-stubPath = "/workspaces/devcontainer/stubs"
+stubPath = "../odoo-stubs"
 extraPaths = [
     "/usr/lib/python3/dist-packages/odoo",     # Ruta real del core de Odoo en el contenedor
-    "/workspaces/devcontainer/odoo",
-    "/workspaces/devcontainer/odoo/addons",
-    "/workspaces/devcontainer/local_addons",   # Ruta absoluta dentro del workspace
-    "/workspaces/devcontainer/enterprise",     # Si tienes enterprise
-    "/workspaces/devcontainer/oca",            # Si tienes OCA
-    "/workspaces/devcontainer/extra_addons"    # Otras dependencias
+    "../odoo",
+    "../odoo/addons",
+    "./local_addons",   # Ruta absoluta dentro del workspace
+    "./enterprise",     # Si tienes enterprise
+    "./oca",            # Si tienes OCA
+    "./extra_addons"    # Otras dependencias
 ]
 # Hardtyping: Fallar si falta información de tipos
 # typeCheckingMode = "strict"

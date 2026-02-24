@@ -10,6 +10,7 @@ enterprise/*
 extra_addons/*
 local_addons/*
 oca/*
+odoo/*
 
 ### C ###
 # Prerequisites

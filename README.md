@@ -19,31 +19,24 @@ Entorno de desarrollo para Odoo 18 usando Docker y VS Code Dev Containers.
 **Herramientas de desarrollo:**
 | Extensión | Función |
 |-----------|---------|
-| **Odoo File** | Navegación de archivos Odoo |
-| **OWL Vision** | Soporte para componentes OWL |
-| **Odoo Extension** | Snippets y utilidades |
-| **SQL Tools** | Cliente PostgreSQL |
-| **Debugpy** | Debugging Python |
-| **Pyright** | Type checking |
-| **Ruff** | Linting y formateo |
+| **Odoo shortcuts** | Navegación de archivos Odoo | [Marketplace](https://marketplace.windsurf.com/vscode/item?itemName=mvintg.odoo-file) |
+| **OWL Vision** | Soporte para componentes OWL | [Marketplace](https://marketplace.windsurf.com/vscode/item?itemName=Odoo.owl-vision) |
+| **Odoo IDE** | Snippets y utilidades | [Marketplace](https://marketplace.windsurf.com/vscode/item?itemName=trinhanhngoc.vscode-odoo) |
+| **Pyright** | Type checking | [Marketplace](https://marketplace.windsurf.com/vscode/item?itemName=ms-pyright.pyright) |
+| **Ruff** | Linting y formateo | [Marketplace](https://marketplace.windsurf.com/vscode/item?itemName=charliermarsh.ruff) |
 
 ## Estructura del Proyecto
 
 ```
-📦 odoo-docker-compose/
-├── 📁 odoo/               # ⚠️ Core de Odoo (clonar automáticamente)
-├── 📁 stubs/              # Type stubs para autocompletado
+📦 odoo-devcontainer/
 ├── 📁 local_addons/       # Tus módulos en desarrollo
 ├── 📁 oca/                # Módulos de la comunidad OCA
 ├── 📁 enterprise/         # Módulos enterprise (opcional)
 ├── 📁 extra_addons/       # Otras dependencias y plugins
 ├── 📁 conf/               # Configuración de Odoo
-├── 📁 .devcontainer/      # Configuración del contenedor
-│   ├── devcontainer.json  # VS Code Dev Container config
-│   ├── docker-compose.yaml
-│   ├── Dockerfile
-│   ├── .env.example       # Variables de entorno (plantilla)
-│   └── .env               # Variables de entorno (local)
+├── 📁 docker-compose.yml   # Configuración de Docker Compose
+├── 📁 Dockerfile          # Dockerfile para el contenedor
+├── 📄 .env.example       # Variables de entorno (plantilla)
 ├── 🔧 setup.sh            # Script de configuración inicial
 ├── 📄 pyproject.toml      # Configuración de Pyright y Ruff
 └── 📄 README.md           # Este archivo
@@ -55,7 +48,6 @@ Entorno de desarrollo para Odoo 18 usando Docker y VS Code Dev Containers.
 |--------|----------|-----|
 | **8069** | Odoo HTTP | Interfaz web principal |
 | **8072** | Odoo Longpolling | WebSockets para chat y notificaciones |
-| **5678** | Debugpy | Debugging remoto Python |
 | **5432** | PostgreSQL | Base de datos (acceso directo) |
 
 ## 🚀 Inicio Rápido
@@ -64,47 +56,64 @@ Entorno de desarrollo para Odoo 18 usando Docker y VS Code Dev Containers.
 
 ```bash
 # Clona este repositorio
-git clone https://github.com/jojoqc/odoo-docker-compose odoo-dev
+git clone https://github.com/jojoqc/odoo-devcontainer odoo-dev
 cd odoo-dev
 
 ```
 
-### Paso 2: Configurar Variables de Entorno
+### Paso 2: Iniciar con Docker Compose
 ```bash
-# Copia el archivo de ejemplo
-cp .devcontainer/.env.example .devcontainer/.env
+# Inicia todos los servicios en segundo plano
+docker compose up -d
 
-# Edita según tus necesidades (opcional)
-nano .devcontainer/.env
+# Verifica que los servicios estén corriendo
+docker compose ps
+docker compose logs -f odoo
+docker compose logs -f postgres
 ```
 
-### Paso 3: Ejecutar Script de Configuración
+### Paso 3: Clonar Odoo y Stubs (Recomendado)
+
+Para una mejor experiencia de desarrollo, clona el código fuente de Odoo y los type stubs **fuera del proyecto** (en un directorio superior). Esto permite:
+
+- ✅ Mejor autocompletado con type stubs
+- ✅ Navegación rápida al código fuente de Odoo
+
+```bash
+# Navegar al directorio padre (fuera del proyecto)
+cd ..  
+
+# Clonar Odoo 18 (código fuente para referencia)
+git clone https://github.com/odoo/odoo.git --depth 1 --branch 18.0 odoo18
+
+# Clonar type stubs (para autocompletado IDE)
+git clone https://github.com/odoo/odoo-stubs.git --depth 1 --branch 18.0
+
+# Volver al proyecto
+cd odoo-devcontainer
+```
+
+**Estructura recomendada:**
+```
+~/path/to/odoo/
+├── odoo18/              # Código fuente Odoo 18
+├── odoo-stubs/          # Type stubs para IDE
+└── odoo-devcontainer/   # Tu proyecto actual
+```
+
+### Paso 4: Ejecutar Script de Configuración
 ```bash
 # Da permisos de ejecución
 chmod +x setup.sh
 
-# Ejecuta el script (clonará Odoo y creará estructura)
+# Ejecuta el script (creará estructura de módulos)
 ./setup.sh
 ```
 
-### Paso 4: Acceder a Odoo
+### Paso 5: Acceder a Odoo
 | Servicio | URL |
 |----------|-----|
 | **Odoo Web** | http://localhost:8069 |
 | **PostgreSQL** | `localhost:5432` |
-| **Debugger** | `localhost:5678` |
 
 **Master Password:** `1234` (configurada en `conf/odoo.conf`)
-
-### Variables de Entorno (`.devcontainer/.env`)
-
-```bash
-POSTGRES_VERSION=16
-ODOO_VERSION=18
-
-# Con debugging remoto
-ENTRYPOINT=/usr/bin/python3 -m debugpy --listen 0.0.0.0:5678 /usr/bin/odoo -c /etc/odoo/odoo.conf --dev=all
-
-# Sin debugging remoto
-# ENTRYPOINT=odoo -c /etc/odoo/odoo.conf --dev=all
-```
